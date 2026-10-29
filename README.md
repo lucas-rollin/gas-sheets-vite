@@ -1,6 +1,6 @@
-# GAS + Vite
+# gas-sheets-vite
 
-Fullstack TypeScript template for Google Apps Script web apps. Vite client with local HMR and mock server, bundled TypeScript server, clasp for deployment, and Google Sheets for storage.
+The same server as [`gas-sheets-minimal`](https://github.com/lucas-rollin/gas-sheets-minimal), plus a Vite + TypeScript client with hot reload against a mock backend. Only the client is built; the `.gs` files are copied through untouched. Choose this if the UI will grow past a couple of screens or you want proper editor support for CSS and TS.
 
 ```text
 server/   main.ts, db.ts                TypeScript server code (bundled into dist/Code.js)
