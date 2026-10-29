@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <base target="_top" />
+    <title>GAS App</title>
+  </head>
+  <body>
+    <main class="app">
+      <h1>Tasks</h1>
+      <form id="add-form" class="add-form">
+        <input id="title" type="text" placeholder="What needs doing?" maxlength="200" autocomplete="off" required />
+        <button type="submit">Add</button>
+      </form>
+      <p id="status" class="status" role="status"></p>
+      <ul id="list" class="list"></ul>
+    </main>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
