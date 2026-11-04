@@ -56,7 +56,7 @@ npm run login
 ### 3. Create or link an Apps Script project
 
 ```bash
-npx clasp create --type standalone --title "My App" --rootDir dist
+npx clasp create --type sheets --title "My App" --rootDir dist
 ```
 
 Or copy `.clasp.json.example` to `.clasp.json` and set your `scriptId` (keep `"rootDir": "dist"`).
