@@ -66,14 +66,14 @@ npm run open
 
 ## Commands
 
-| Command | Purpose |
-| :--- | :--- |
-| `npm run dev` | Local Vite dev server with HMR, using `client/mock.ts` instead of Sheets. |
-| `npm run typecheck` | Runs `tsc --noEmit` across `client/`, `server/`, and `types/`. |
-| `npm run build` | Inlines the client into `dist/index.html` and bundles the server into `dist/Code.js`. |
-| `npm run push` | Builds, then runs `clasp push --force`. `--force` overwrites `appsscript.json` without prompting. |
-| `npm run deploy` | Pushes, then creates a **new deployment with a new URL**. To update an existing one, run `clasp deploy --deploymentId <ID>`. |
-| `npm run open` | Opens the project in the Apps Script editor. |
+| Command             | Purpose                                                                                                                      |
+| :------------------ | :--------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`       | Local Vite dev server with HMR, using `client/mock.ts` instead of Sheets.                                                    |
+| `npm run typecheck` | Runs `tsc --noEmit` across `client/`, `server/`, and `types/`.                                                               |
+| `npm run build`     | Inlines the client into `dist/index.html` and bundles the server into `dist/Code.js`.                                        |
+| `npm run push`      | Builds, then runs `clasp push --force`. `--force` overwrites `appsscript.json` without prompting.                            |
+| `npm run deploy`    | Pushes, then creates a **new deployment with a new URL**. To update an existing one, run `clasp deploy --deploymentId <ID>`. |
+| `npm run open`      | Opens the project in the Apps Script editor.                                                                                 |
 
 ## How It Works
 
@@ -87,48 +87,48 @@ Replace the contents of every **App** file:
 
 1. **`types/app.ts`**: your entities and `ServerApi`.
 
-    ```ts
-    /** @app  Starter Todo types. Replace with your own. */
-    import type { DbRecord } from './core';
+   ```ts
+   /** @app  Starter Todo types. Replace with your own. */
+   import type { DbRecord } from './core';
 
-    export interface Item extends DbRecord {
-      name: string;
-    }
+   export interface Item extends DbRecord {
+     name: string;
+   }
 
-    export interface ServerApi {
-      listItems(): Item[];
-    }
-    ```
+   export interface ServerApi {
+     listItems(): Item[];
+   }
+   ```
 
 2. **`server/api.ts`**: your schema and endpoints.
 
-    ```ts
-    import type { Item, ServerApi } from '../types/app';
-    import { createDb } from './db';
+   ```ts
+   import type { Item, ServerApi } from '../types/app';
+   import { createDb } from './db';
 
-    const db = createDb({
-      items: ['id', 'name', 'createdAt', 'updatedAt'],
-    });
+   const db = createDb({
+     items: ['id', 'name', 'createdAt', 'updatedAt'],
+   });
 
-    export function listItems(): Item[] {
-      return db.list<Item>('items');
-    }
+   export function listItems(): Item[] {
+     return db.list<Item>('items');
+   }
 
-    const _contract: ServerApi = { listItems };
-    void _contract;
-    ```
+   const _contract: ServerApi = { listItems };
+   void _contract;
+   ```
 
 3. **`client/mock.ts`**: mock handlers for `npm run dev`.
 
-    ```ts
-    import type { Item, ServerApi } from '../types/app';
+   ```ts
+   import type { Item, ServerApi } from '../types/app';
 
-    const items: Item[] = [{ id: '1', name: 'Sample Item', createdAt: '', updatedAt: '' }];
+   const items: Item[] = [{ id: '1', name: 'Sample Item', createdAt: '', updatedAt: '' }];
 
-    export const mockHandlers: ServerApi = {
-      listItems: () => items,
-    };
-    ```
+   export const mockHandlers: ServerApi = {
+     listItems: () => items,
+   };
+   ```
 
 4. **`client/index.html`, `client/main.ts`, `client/style.css`**: your UI. Keep one mount element (for example `<main id="app"></main>`) and import `api` from `./rpc`.
 

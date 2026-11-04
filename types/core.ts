@@ -3,16 +3,15 @@
  */
 
 export interface DbRecord {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+	id: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 // Base interface that types/app.ts will augment
+// biome-ignore lint: keep it an interface
 export interface ServerApi {}
 
 export type ClientApi<T> = {
-  [K in keyof T]: T[K] extends (...args: infer P) => infer R
-    ? (...args: P) => Promise<R>
-    : never;
+	[K in keyof T]: T[K] extends (...args: infer P) => infer R ? (...args: P) => Promise<R> : never;
 };
