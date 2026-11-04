@@ -1,5 +1,5 @@
 import { copyFileSync, readFileSync, writeFileSync } from 'node:fs';
-import { build as esbuild } from 'esbuild';
+import { type BuildOptions, build as esbuild } from 'esbuild';
 import { defineConfig, type Plugin } from 'vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
 
@@ -12,25 +12,36 @@ const buildGasServer = (): Plugin => ({
 		const ENTRY = 'server/main.ts';
 		const OUT = 'dist/Code.js';
 
-		const result = await esbuild({
+		const common: BuildOptions = {
 			entryPoints: [ENTRY],
 			outfile: OUT,
 			bundle: true,
-			format: 'iife',
-			globalName: '__app',
 			target: 'es2020',
 			charset: 'utf8',
 			legalComments: 'none',
+		};
+
+		// Discover exports. esbuild reports them only for ESM output.
+		const probe = await esbuild({
+			...common,
+			format: 'esm',
+			write: false,
 			metafile: true,
 		});
-
-		const output = Object.values(result.metafile.outputs).find((o) => o.entryPoint);
-		const entryPoints = output?.exports ?? [];
-		if (!entryPoints.includes('doGet')) {
+		const entryOutput = Object.values(probe.metafile.outputs).find((o) => o.entryPoint);
+		const exportNames = entryOutput?.exports ?? [];
+		if (!exportNames.includes('doGet')) {
 			throw new Error(`${ENTRY} must export doGet()`);
 		}
 
-		const stubs = entryPoints
+		// Real bundle for Apps Script.
+		await esbuild({
+			...common,
+			format: 'iife',
+			globalName: '__app',
+		});
+
+		const stubs = exportNames
 			.map((n) => `function ${n}() { return __app.${n}.apply(this, arguments); }`)
 			.join('\n');
 		writeFileSync(
