@@ -32,7 +32,18 @@ Every source file starts with an `@core` or `@app` comment.
 
 ## Quickstart
 
-### 1. Install and log in
+### 1. Get the code
+
+Click **Use this template** on GitHub, or:
+
+```bash
+gh repo create my-app --template lucas-rollin/gas-sheets-vite --clone
+# or, without GitHub:
+npx degit lucas-rollin/gas-sheets-vite my-app
+cd my-app
+```
+
+### 2. Install and log in
 
 1. Install [Node.js](https://nodejs.org) (current LTS).
 2. Enable the Apps Script API at <https://script.google.com/home/usersettings>. Without this, `clasp` fails with "User has not enabled the Apps Script API".
@@ -42,7 +53,7 @@ npm install
 npm run login
 ```
 
-### 2. Create or link an Apps Script project
+### 3. Create or link an Apps Script project
 
 ```bash
 npx clasp create --type standalone --title "My App" --rootDir dist
@@ -50,7 +61,7 @@ npx clasp create --type standalone --title "My App" --rootDir dist
 
 Or copy `.clasp.json.example` to `.clasp.json` and set your `scriptId` (keep `"rootDir": "dist"`).
 
-### 3. Push and configure
+### 4. Push and configure
 
 ```bash
 npm run push
@@ -60,7 +71,7 @@ npm run open
 1. In the editor, go to **Project Settings** (⚙️) > **Script properties** and add `SPREADSHEET_ID` with your Google Sheet ID.
 2. Click **Deploy > New deployment**, choose **Web app**, set access, and deploy.
 
-### 4. Updating after the first deploy
+### 5. Updating after the first deploy
 
 `npm run push` updates your code but **not** the live web app. Either use the **Test deployment** URL (ends in `/dev`), or go to **Deploy > Manage deployments** and select **New version** on the existing deployment.
 
