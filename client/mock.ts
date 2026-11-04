@@ -1,17 +1,16 @@
-import type { ServerApi, Task } from '../shared/types';
-
 /**
- * Fake of server/main.ts, used only by `npm run dev`. Deliberately dumb:
- * an in-memory array. It does NOT import server code, so keep it in sync by hand
- * and always verify against the real backend with `npm run push`.
- * Data resets on page reload.
+ * @app Starter Todo In-memory state mimicking. Replace with your own.
  */
+
+import type { Task } from '../types/app';
+import { ServerApi } from '../types/core';
+
 let tasks: Task[] = [
   { id: '1', title: 'Try the template', done: false, createdAt: '', updatedAt: '' },
   { id: '2', title: 'Replace this sample with your own feature', done: true, createdAt: '', updatedAt: '' },
 ];
 
-const handlers: ServerApi = {
+export const mockHandlers: ServerApi = {
   listTasks: () => tasks,
   createTask: (title: string) => {
     title = String(title || '').trim();
@@ -32,11 +31,3 @@ const handlers: ServerApi = {
     tasks = tasks.filter((t) => t.id !== id);
   },
 };
-
-export async function mock(name: string, args: unknown[]): Promise<unknown> {
-  await new Promise((r) => setTimeout(r, 300)); // roughly mimics google.script.run latency
-  const handler = handlers[name as keyof ServerApi] as ((...a: unknown[]) => unknown) | undefined;
-  if (!handler) throw new Error(`mock: no handler for "${name}"`);
-  const result = handler(...args);
-  return result === undefined ? result : JSON.parse(JSON.stringify(result)); // like the real serialization
-}

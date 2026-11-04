@@ -2,6 +2,7 @@
   "name": "gas-sheets-vite",
   "private": true,
   "type": "module",
+  "description": "Vite Google Apps Script web app template",
   "scripts": {
     "dev": "vite",
     "typecheck": "tsc --noEmit",
@@ -19,5 +20,8 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "vite-plugin-singlefile": "^2.3.4"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }

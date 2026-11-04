@@ -12,13 +12,7 @@ const buildGasServer = (): Plugin => ({
     const ENTRY = 'server/main.ts';
     const OUT = 'dist/Code.js';
 
-    const source = readFileSync(ENTRY, 'utf8');
-    const entryPoints = [...source.matchAll(/export\s+(?:async\s+)?function\s+(\w+)/g)].map((m) => m[1]);
-    if (!entryPoints.includes('doGet')) {
-      throw new Error(`${ENTRY} must export doGet()`);
-    }
-
-    await esbuild({
+    const result = await esbuild({
       entryPoints: [ENTRY],
       outfile: OUT,
       bundle: true,
@@ -27,7 +21,14 @@ const buildGasServer = (): Plugin => ({
       target: 'es2020',
       charset: 'utf8',
       legalComments: 'none',
+      metafile: true,
     });
+
+    const output = Object.values(result.metafile.outputs).find((o) => o.entryPoint);
+    const entryPoints = output?.exports ?? [];
+    if (!entryPoints.includes('doGet')) {
+      throw new Error(`${ENTRY} must export doGet()`);
+    }
 
     const stubs = entryPoints
       .map((n) => `function ${n}() { return __app.${n}.apply(this, arguments); }`)

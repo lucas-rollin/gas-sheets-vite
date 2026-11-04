@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "isolatedModules": true
   },
-  "include": ["client", "server", "shared", "vite.config.ts"]
+  "include": ["client", "server", "types", "vite.config.ts"]
 }

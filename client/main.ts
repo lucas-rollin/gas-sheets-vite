@@ -1,6 +1,10 @@
+/**
+ * @app Starter Todo Client Logic. Replace with your own.
+ */
+
 import './style.css';
-import { api } from './api';
-import type { Task } from '../shared/types';
+import { api } from './rpc';
+import type { Task } from '../types/app';
 
 const form = document.getElementById('add-form') as HTMLFormElement;
 const input = document.getElementById('title') as HTMLInputElement;
@@ -39,7 +43,7 @@ function render() {
     });
 
     const title = document.createElement('span');
-    title.textContent = task.title; // textContent, never innerHTML
+    title.textContent = task.title;
 
     const remove = document.createElement('button');
     remove.className = 'ghost';
